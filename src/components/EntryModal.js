@@ -14,6 +14,8 @@ import * as React from 'react';
 import { useState } from 'react';
 import { categories } from '../utils/categories';
 import { addEntry } from '../utils/mutations';
+import { updateEntry } from '../utils/mutations';
+import { deleteEntry } from '../utils/mutations';
 
 // Modal component for individual entries.
 
@@ -31,6 +33,7 @@ export default function EntryModal({ entry, type, user }) {
    // TODO: For editing, you may have to add and manage another state variable to check if the entry is being edited.
 
    const [open, setOpen] = useState(false);
+   const [editing, setEditing] = useState(false);
    const [name, setName] = useState(entry.name);
    const [link, setLink] = useState(entry.link);
    const [description, setDescription] = useState(entry.description);
@@ -48,6 +51,7 @@ export default function EntryModal({ entry, type, user }) {
 
    const handleClose = () => {
       setOpen(false);
+      setEditing(false);
    };
 
    // Mutation handlers
@@ -68,7 +72,29 @@ export default function EntryModal({ entry, type, user }) {
 
    // TODO: Add Edit Mutation Handler
 
+   const handleEdit = () => {
+      const currentEntry = {
+         name: name,
+         link: link,
+         description: description,
+         category: category,
+         id: entry.id
+      };
+
+      updateEntry(currentEntry).catch(console.error);
+      handleClose();
+   };
+
    // TODO: Add Delete Mutation Handler
+
+   const handleDelete = () => {
+      const currentEntry = {
+         id: entry.id
+      };
+
+      deleteEntry(currentEntry).catch(console.error);
+      handleClose();
+   };
 
    // Button handlers for modal opening and inside-modal actions.
    // These buttons are displayed conditionally based on if adding or editing/opening.
@@ -87,6 +113,8 @@ export default function EntryModal({ entry, type, user }) {
       type === "edit" ?
          <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
+            <Button variant="contained" onClick={handleEdit}>Save Edits</Button>
+            <Button variant="contained" onClick={handleDelete}>Delete</Button>
          </DialogActions>
          : type === "add" ?
             <DialogActions>

@@ -182,10 +182,12 @@ export default function EntryModal({ entry, type, user }) {
                <div style={{
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center'
+                  justifyContent: 'center',
                }}>
                   {type === "edit"
-                     ? <img src={"http://api.qrserver.com/v1/create-qr-code/?data=" + link + "&size=200x200"}></img>
+                     ? <img style={{padding: 30}}
+                            src={"http://api.qrserver.com/v1/create-qr-code/?data=" + link + "&size=200x200"}>
+                       </img>
                      : null
                   }
 

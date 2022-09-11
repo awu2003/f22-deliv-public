@@ -186,6 +186,7 @@ export default function EntryModal({ entry, type, user }) {
                }}>
                   {type === "edit"
                      ? <img style={{padding: 30}}
+                            alt={"qr code for " + link}
                             src={"http://api.qrserver.com/v1/create-qr-code/?data=" + link + "&size=200x200"}>
                        </img>
                      : null

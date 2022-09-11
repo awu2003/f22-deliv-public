@@ -21,21 +21,22 @@ export default function EntryTable({ entries, user }) {
    // state variables
    const [nameDirection, setNameDirection] = useState(false);
    const [linkDirection, setLinkDirection] = useState(false);
+   const [visibleEntries, setVisibleEntries] = useState(entries);
 
    // visibility handlers
-   const handleClickOpen = () => {
-      
-   };
 
    const handleNameDirection = () => {
+      setVisibleEntries(entries);
       setNameDirection(!nameDirection);
       
-      sortName(entries, user);
-      //sortName(entries, user, nameDirection);
+      sortName(visibleEntries, nameDirection);
    };
 
    const handleLinkDirection = () => {
+      setVisibleEntries(entries);
       setLinkDirection(!linkDirection);
+      
+      sortLink(visibleEntries, linkDirection);
    };
 
    return (
@@ -47,7 +48,7 @@ export default function EntryTable({ entries, user }) {
                      <TableSortLabel onClick={handleNameDirection}>Name</TableSortLabel>
                   </TableCell>
                   <TableCell align="right">
-                     <TableSortLabel onClick={(e) => {sortLink(e, entries, user)}}>Link</TableSortLabel>
+                     <TableSortLabel onClick={handleLinkDirection}>Link</TableSortLabel>
                   </TableCell>
                   <TableCell align="right">User</TableCell>
                   <TableCell align="right">Category</TableCell>

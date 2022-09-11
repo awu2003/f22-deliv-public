@@ -6,19 +6,49 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import TableSortLabel from '@mui/material/TableSortLabel';
 import EntryModal from './EntryModal';
+import * as React from 'react';
+import { useState } from 'react';
 import { getCategory } from '../utils/categories';
+import { sortName } from '../utils/sort';
+import { sortLink } from '../utils/sort';
 
 // Table component that displays entries on home screen
 
-export default function EntryTable({ entries }) {
+export default function EntryTable({ entries, user }) {
+
+   // state variables
+   const [nameDirection, setNameDirection] = useState(false);
+   const [linkDirection, setLinkDirection] = useState(false);
+
+   // visibility handlers
+   const handleClickOpen = () => {
+      
+   };
+
+   const handleNameDirection = () => {
+      setNameDirection(!nameDirection);
+      
+      sortName(entries, user);
+      //sortName(entries, user, nameDirection);
+   };
+
+   const handleLinkDirection = () => {
+      setLinkDirection(!linkDirection);
+   };
+
    return (
       <TableContainer component={Paper}>
          <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
                <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell align="right">Link</TableCell>
+                  <TableCell>
+                     <TableSortLabel onClick={handleNameDirection}>Name</TableSortLabel>
+                  </TableCell>
+                  <TableCell align="right">
+                     <TableSortLabel onClick={(e) => {sortLink(e, entries, user)}}>Link</TableSortLabel>
+                  </TableCell>
                   <TableCell align="right">User</TableCell>
                   <TableCell align="right">Category</TableCell>
                   <TableCell align="right">Open</TableCell>

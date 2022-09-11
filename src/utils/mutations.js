@@ -22,6 +22,7 @@ export async function addEntry(entry) {
       // You should not remove this userid property, otherwise your logged entries will not display.
       userid: entry.userid,
    });
+   console.log(db);
 }
 
 export async function updateEntry(entry) {

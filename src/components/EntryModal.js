@@ -16,6 +16,7 @@ import { categories } from '../utils/categories';
 import { addEntry } from '../utils/mutations';
 import { updateEntry } from '../utils/mutations';
 import { deleteEntry } from '../utils/mutations';
+import { saveAs } from 'file-saver'
 
 // Modal component for individual entries.
 
@@ -33,7 +34,6 @@ export default function EntryModal({ entry, type, user }) {
    // TODO: For editing, you may have to add and manage another state variable to check if the entry is being edited.
 
    const [open, setOpen] = useState(false);
-   const [editing, setEditing] = useState(false);
    const [name, setName] = useState(entry.name);
    const [link, setLink] = useState(entry.link);
    const [description, setDescription] = useState(entry.description);
@@ -51,8 +51,14 @@ export default function EntryModal({ entry, type, user }) {
 
    const handleClose = () => {
       setOpen(false);
-      setEditing(false);
    };
+
+   // Download handler (credit: https://stackoverflow.com/questions/68801171/how-to-save-an-image-and-download-it-in-reactjs)
+
+   const downloadImage = () => {
+      const url = "http://api.qrserver.com/v1/create-qr-code/?data=" + link + "&size=200x200";
+      saveAs(url, 'qrcode.png') // Put your image url here.
+   }
 
    // Mutation handlers
 
@@ -173,6 +179,23 @@ export default function EntryModal({ entry, type, user }) {
                      {categories.map((category) => (<MenuItem value={category.id}>{category.name}</MenuItem>))}
                   </Select>
                </FormControl>
+               <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+               }}>
+                  {type === "edit"
+                     ? <img src={"http://api.qrserver.com/v1/create-qr-code/?data=" + link + "&size=200x200"}></img>
+                     : null
+                  }
+
+                  {type === "edit"
+                     ? <Button variant="contained" onClick={downloadImage}>
+                           Download QR Code
+                       </Button>
+                     : null
+                  }
+               </div>
             </DialogContent>
             {actionButtons}
          </Dialog>

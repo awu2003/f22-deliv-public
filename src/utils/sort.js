@@ -1,7 +1,3 @@
-import { db } from './firebase';
-import { where, getDatabase, ref, query, orderByChild, orderBy, collection } from "firebase/firestore";
-
-
 //Comparer Function https://www.c-sharpcorner.com/UploadFile/fc34aa/sort-json-object-array-based-on-a-key-attribute-in-javascrip/    
 function GetSortOrderUp(prop) {    
     return function(a, b) {    
@@ -47,7 +43,17 @@ export async function sortLink(entries, direction) {
     }
 }
 
-// Filter by category
-export async function filterCategory(user) {
-    
+// Search
+export async function searchEntries(entries, searchValue) {
+    console.log(entries);
+    console.log(entries.length);
+
+    var results = [];
+    for (var i=0 ; i < entries.length ; i++) {
+        if (entries[i]["name"].includes(searchValue)) {
+            results.push(entries[i]);
+        }
+    }
+    console.log(results);
+    return results;
 }

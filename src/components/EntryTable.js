@@ -7,16 +7,18 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
+import TextField from '@mui/material/TextField';
 import EntryModal from './EntryModal';
 import * as React from 'react';
 import { useState } from 'react';
 import { getCategory } from '../utils/categories';
 import { sortName } from '../utils/sort';
 import { sortLink } from '../utils/sort';
+import { searchEntries } from '../utils/sort';
 
 // Table component that displays entries on home screen
 
-export default function EntryTable({ entries, user }) {
+export default function EntryTable({ entries }) {
 
    // state variables
    const [nameDirection, setNameDirection] = useState(false);
@@ -32,6 +34,11 @@ export default function EntryTable({ entries, user }) {
       sortName(visibleEntries, nameDirection);
    };
 
+   const search = (searchValue) => {
+      setVisibleEntries(entries);
+      setVisibleEntries(searchEntries(entries, searchValue));
+   };
+
    const handleLinkDirection = () => {
       setVisibleEntries(entries);
       setLinkDirection(!linkDirection);
@@ -41,6 +48,14 @@ export default function EntryTable({ entries, user }) {
 
    return (
       <TableContainer component={Paper}>
+         <TextField 
+            style={{margin: 10}} 
+            id="filled-basic"
+            label="Search by Name"
+            variant="filled"
+            value={null}
+            onChange={(event) => search(event.target.value)}
+         />
          <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
                <TableRow>
